@@ -1,0 +1,1 @@
+The key images folder stores the image files used by the data editor and viewer scripts to display the WASD inputs. The images were sourced from a preview download avaiable on [VectorStock](https://www.vectorstock.com/royalty-free-vector/computer-keyboard-wasd-gaming-buttons-vector-6846065 "VectorStock Img 6846065"). 
