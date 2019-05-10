@@ -1,4 +1,10 @@
-# Using Python programming to Play Grand Theft Auto 5
+
+#My fork readme:
+This is my own little fork of https://github.com/Sentdex/pygta5/ 
+Current in this repository, I'm working on a modified version of Sentdex's model that trained on an image that is the combanation of the last screen and the current screen with a code for the last WASD key input printed in the upper right hand corrner of the image.
+
+#Source branch readme:
+## Using Python programming to Play Grand Theft Auto 5
 
 Explorations of Using Python to play Grand Theft Auto 5, mainly for the purposes of creating self-driving cars and other vehicles.
 
