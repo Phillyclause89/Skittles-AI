@@ -1,3 +1,5 @@
+#https://youtu.be/wIxUp-37jVY?t=48
+
 import numpy as np
 import pandas as pd
 from collections import Counter
