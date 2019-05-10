@@ -9,7 +9,7 @@ FILE_I_END = 1
 data_order = [i for i in range(1, FILE_I_END + 1)]
 for count, i in enumerate(data_order):
     try:
-        file_name = 'approved_training_data-{}.npy'.format(i)
+        file_name = 'training_data/hist_data/hist_training_data-{}.npy'.format(i)
         train_data = np.load(file_name, allow_pickle=True)
         for data in train_data:
             img = data[0]

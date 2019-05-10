@@ -13,5 +13,5 @@ def key_check():
     for key in keyList:
         if wapi.GetAsyncKeyState(ord(key)):
             keys.append(key)
-            print(key)
+            #print(key)
     return keys

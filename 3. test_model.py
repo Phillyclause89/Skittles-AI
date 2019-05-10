@@ -15,7 +15,7 @@ GAME_HEIGHT = 1080
 WIDTH = 480
 HEIGHT = 270
 LR = 1e-3
-EPOCHS = 4
+EPOCHS = 1
 
 w = [1, 0, 0, 0, 0, 0, 0, 0, 0]
 s = [0, 1, 0, 0, 0, 0, 0, 0, 0]
@@ -93,7 +93,7 @@ def no_keys():
 
 
 model = googlenet(WIDTH, HEIGHT, 3, LR, output=9)
-MODEL_NAME = 'pygta5-{}-{}-{}-epochs-17-balanced_data.model'.format(LR, 'googlenet', EPOCHS)
+MODEL_NAME = 'pygta5-{}-{}-{}-epochs-7-raw_data.model'.format(LR, 'googlenet', EPOCHS)
 model.load(MODEL_NAME)
 
 print('We have loaded a previous model!!!!')

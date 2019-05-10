@@ -8,7 +8,7 @@ from collections import deque, Counter
 import random
 from statistics import mode, mean
 import numpy as np
-import  os
+import os
 
 GAME_WIDTH = 1920
 GAME_HEIGHT = 1080
@@ -27,6 +27,7 @@ wd = [0, 0, 0, 0, 0, 1, 0, 0, 0]
 sa = [0, 0, 0, 0, 0, 0, 1, 0, 0]
 sd = [0, 0, 0, 0, 0, 0, 0, 1, 0]
 nk = [0, 0, 0, 0, 0, 0, 0, 0, 1]
+
 
 def keys_to_output(keys):
     '''
@@ -55,6 +56,7 @@ def keys_to_output(keys):
     else:
         output = nk
     return output
+
 
 def straight():
     PressKey(W)
@@ -120,10 +122,9 @@ def no_keys():
     ReleaseKey(D)
 
 
-model = googlenet((WIDTH*2), HEIGHT, 3, LR, output=9)
-MODEL_NAME = 'pygta5-{}-{}-{}-epochs-1-hist_data.model'.format(LR, 'googlenet',EPOCHS)
+model = googlenet((WIDTH * 2), HEIGHT, 3, LR, output=9)
+MODEL_NAME = 'pygta5-{}-{}-{}-epochs-1-hist_data.model'.format(LR, 'googlenet', EPOCHS)
 model.load(MODEL_NAME)
-test_data = []
 
 print('We have loaded a previous model!!!!')
 
@@ -135,93 +136,127 @@ def main():
 
     paused = False
     mode_choice = 0
+    test_data = []
 
     while (True):
 
+
         if not paused:
-            screen = grab_screen(region=(0, 40, GAME_WIDTH, GAME_HEIGHT + 40))
-            screen = cv2.cvtColor(screen, cv2.COLOR_BGR2RGB)
-            screen = cv2.resize(screen, (WIDTH, HEIGHT))
-            keys = key_check()
-            output = keys_to_output(keys)
-            test_data.append([screen, output])
+            if len(test_data) == 0:
+                screen = grab_screen(region=(0, 40, GAME_WIDTH, GAME_HEIGHT + 40))
+                screen = cv2.cvtColor(screen, cv2.COLOR_BGR2RGB)
+                screen = cv2.resize(screen, (WIDTH, HEIGHT))
+                keys = key_check()
+                output = keys_to_output(keys)
+                test_data = [screen, output]
+            else:
+                screen = grab_screen(region=(0, 40, GAME_WIDTH, GAME_HEIGHT + 40))
+                screen = cv2.cvtColor(screen, cv2.COLOR_BGR2RGB)
+                screen = cv2.resize(screen, (WIDTH, HEIGHT))
 
+                img1 = screen
+                img2 = test_data[0]
+                last_input = test_data[1]
+                vis = np.concatenate((img1, img2), axis=1)
+                font = cv2.FONT_HERSHEY_SIMPLEX
+                last = []
+                if last_input == [1, 0, 0, 0, 0, 0, 0, 0, 0]:
+                    last = 'W'
+                elif last_input == [0, 1, 0, 0, 0, 0, 0, 0, 0]:
+                    last = 'SS'
+                elif last_input == [0, 0, 1, 0, 0, 0, 0, 0, 0]:
+                    last = 'AAA'
+                elif last_input == [0, 0, 0, 1, 0, 0, 0, 0, 0]:
+                    last = 'DDDD'
+                elif last_input == [0, 0, 0, 0, 1, 0, 0, 0, 0]:
+                    last = 'WAWAWA'
+                elif last_input == [0, 0, 0, 0, 0, 1, 0, 0, 0]:
+                    last = 'WDWDWDWD'
+                elif last_input == [0, 0, 0, 0, 0, 0, 1, 0, 0]:
+                    last = 'SASASASASA'
+                elif last_input == [0, 0, 0, 0, 0, 0, 0, 1, 0]:
+                    last = 'SDSDSDSDSDSD'
+                elif last_input == [0, 0, 0, 0, 0, 0, 0, 0, 1]:
+                    last = 'NKNKNKNKNKNKNK'
+                cv2.putText(vis, str(last), (10, 10), font, 1, (255, 0, 0), 3, cv2.LINE_AA)
 
-            prediction = model.predict([screen.reshape(WIDTH, HEIGHT, 3)])[0]
-            prediction = np.array(prediction) #* np.array([1.12, 1, 1, 1, 1, 1, 1, 1, 0.2])
-            print(prediction)
-            # div = 4
-            # wplus = prediction[0] + (prediction[4] / div) + (prediction[5] / div)
-            # print(wplus)
-            # splus = prediction[1] + (prediction[6] / div) + (prediction[7] / div)
-            # print(splus)
-            # aplus = prediction[2] + (prediction[6] / div) + (prediction[4] / div)
-            # print(aplus)
-            # dplus = prediction[3] + (prediction[5] / div) + (prediction[7] / div)
-            # print(dplus)
-            # waplus = prediction[4] + (prediction[0] / div) + (prediction[2] / div)
-            # print(waplus)
-            # wdplus = prediction[5] + (prediction[0] / div) + (prediction[3] / div)
-            # print(wdplus)
-            # saplus = prediction[6] + (prediction[2] / div) + (prediction[1] / div)
-            # print(saplus)
-            # sdplus = prediction[7] + (prediction[1] / div) + (prediction[3] / div)
-            # print(sdplus)
-            #
-            # mode_choice_v2 = np.argmax([wplus, splus, aplus, dplus, waplus, wdplus, saplus, sdplus])
-            # print(mode_choice_v2)
+                prediction = model.predict([vis.reshape((2 * WIDTH), HEIGHT, 3)])[0]
+                prediction = np.array(prediction)  # * np.array([1.12, 1, 1, 1, 1, 1, 1, 1, 0.2])
+                print(prediction)
+                # div = 4
+                # wplus = prediction[0] + (prediction[4] / div) + (prediction[5] / div)
+                # print(wplus)
+                # splus = prediction[1] + (prediction[6] / div) + (prediction[7] / div)
+                # print(splus)
+                # aplus = prediction[2] + (prediction[6] / div) + (prediction[4] / div)
+                # print(aplus)
+                # dplus = prediction[3] + (prediction[5] / div) + (prediction[7] / div)
+                # print(dplus)
+                # waplus = prediction[4] + (prediction[0] / div) + (prediction[2] / div)
+                # print(waplus)
+                # wdplus = prediction[5] + (prediction[0] / div) + (prediction[3] / div)
+                # print(wdplus)
+                # saplus = prediction[6] + (prediction[2] / div) + (prediction[1] / div)
+                # print(saplus)
+                # sdplus = prediction[7] + (prediction[1] / div) + (prediction[3] / div)
+                # print(sdplus)
+                #
+                # mode_choice_v2 = np.argmax([wplus, splus, aplus, dplus, waplus, wdplus, saplus, sdplus])
+                # print(mode_choice_v2)
 
-            mode_choice = np.argmax(prediction)
-            print(mode_choice)
+                mode_choice = np.argmax(prediction)
+                print(mode_choice)
 
-            if mode_choice == 0:
-                straight()
-                choice_picked = 'straight'
-                print(choice_picked)
+                if mode_choice == 0:
+                    straight()
+                    choice_picked = 'straight'
+                    print(choice_picked)
 
-            elif mode_choice == 1:
-                reverse()
-                choice_picked = 'reverse'
-                print(choice_picked)
+                elif mode_choice == 1:
+                    reverse()
+                    choice_picked = 'reverse'
+                    print(choice_picked)
 
-            elif mode_choice == 2:
-                left()
-                choice_picked = 'left'
-                print(choice_picked)
+                elif mode_choice == 2:
+                    left()
+                    choice_picked = 'left'
+                    print(choice_picked)
 
-            elif mode_choice == 3:
-                right()
-                choice_picked = 'right'
-                print(choice_picked)
+                elif mode_choice == 3:
+                    right()
+                    choice_picked = 'right'
+                    print(choice_picked)
 
-            elif mode_choice == 4:
-                forward_left()
-                choice_picked = 'forward+left'
-                print(choice_picked)
+                elif mode_choice == 4:
+                    forward_left()
+                    choice_picked = 'forward+left'
+                    print(choice_picked)
 
-            elif mode_choice == 5:
-                forward_right()
-                choice_picked = 'forward+right'
-                print(choice_picked)
+                elif mode_choice == 5:
+                    forward_right()
+                    choice_picked = 'forward+right'
+                    print(choice_picked)
 
-            elif mode_choice == 6:
-                reverse_left()
-                choice_picked = 'reverse+left'
-                print(choice_picked)
+                elif mode_choice == 6:
+                    reverse_left()
+                    choice_picked = 'reverse+left'
+                    print(choice_picked)
 
-            elif mode_choice == 7:
-                reverse_right()
-                choice_picked = 'reverse+right'
-                print(choice_picked)
+                elif mode_choice == 7:
+                    reverse_right()
+                    choice_picked = 'reverse+right'
+                    print(choice_picked)
 
-            elif mode_choice == 8:
-                no_keys()
-                choice_picked = 'nokeys'
-                print(choice_picked)
-
+                elif mode_choice == 8:
+                    no_keys()
+                    choice_picked = 'nokeys'
+                    print(choice_picked)
+                keys = key_check()
+                output = keys_to_output(keys)
+                test_data = [screen, output]
         keys = key_check()
-
         # p pauses game and can get annoying.
+                # p pauses game and can get annoying.
         if 'T' in keys:
             if paused:
                 paused = False
