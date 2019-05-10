@@ -6,18 +6,18 @@ import os
 import pandas as pd
 #from tqdm import tqdm
 from collections import deque
-from models import hist_inception_v3 as googlenet
+from models import inception_v3 as googlenet
 from random import shuffle
 
 FILE_I_END = 1
 
-WIDTH = 480
+WIDTH = 960
 HEIGHT = 270
 LR = 1e-3
 EPOCHS = 1
 
 MODEL_NAME = 'pygta5-{}-{}-{}-epochs-1-hist_data.model'.format(LR, 'googlenet',EPOCHS)
-PREV_MODEL = 'pygta5-{}-{}-{}-epochs-7-hist_data.model'.format(LR, 'googlenet',EPOCHS)
+PREV_MODEL = 'pygta5-{}-{}-{}-epochs-1-hist_data.model'.format(LR, 'googlenet',EPOCHS)
 
 LOAD_MODEL = False
 
@@ -82,28 +82,14 @@ for e in range(EPOCHS):
             train = train_data[:-2500]
             test = train_data[-2500:]
 
-            print(1)
-
             X = np.array([i[0] for i in train]).reshape(-1, WIDTH, HEIGHT, 3)
-            print(2)
-            X2 = np.array([i[2] for i in train]).reshape(-1, WIDTH, HEIGHT, 3)
-            print(3)
-            X3 = np.array([i[3] for i in train]).reshape(-1, 9)
-            print(4)
-            X_shape = np.array([[X], [X2], [X3]])
-            print(X_shape)
             Y = [i[1] for i in train]
-            print(5)
+
 
             test_x = np.array([i[0] for i in test]).reshape(-1, WIDTH, HEIGHT, 3)
-            print(6)
-            test_x2 = np.array([i[2] for i in test]).reshape(-1, WIDTH, HEIGHT, 3)
-            print(7)
-            test_x3 = np.array([i[3] for i in test]).reshape(-1, 9)
-            print(8)
             test_y = [i[1] for i in test]
 
-            model.fit({'input': [X, X2, X3]}, {'targets': Y}, n_epoch=1, validation_set=({'input': [test_x, test_x2, test_x3]}, {'targets': test_y}),
+            model.fit({'input': X}, {'targets': Y}, n_epoch=1, validation_set=({'input': test_x}, {'targets': test_y}),
                       snapshot_step=2500, show_metric=True, run_id=MODEL_NAME)
 
             if count % 10 == 0:
