@@ -11,13 +11,13 @@ from random import shuffle
 
 FILE_I_END = 7
 
-WIDTH = 960
+WIDTH = 480
 HEIGHT = 270
 LR = 1e-3
 EPOCHS = 2
 
-MODEL_NAME = 'models/pygta5-{}-{}-{}-epochs-{}-hist_data.model'.format(LR, 'googlenet', EPOCHS, FILE_I_END)
-PREV_MODEL = 'models/pygta5-{}-{}-{}-epochs-{}-hist_data.model'.format(LR, 'googlenet', EPOCHS, FILE_I_END)
+MODEL_NAME = 'models/pygta5-{}-{}-{}-epochs-{}-hist_2_data.model'.format(LR, 'googlenet', EPOCHS, FILE_I_END)
+PREV_MODEL = 'models/pygta5-{}-{}-{}-epochs-{}-hist_2_data.model'.format(LR, 'googlenet', EPOCHS, FILE_I_END)
 
 LOAD_MODEL = False
 
@@ -58,26 +58,11 @@ for e in range(EPOCHS):
     for count, i in enumerate(data_order):
 
         try:
-            file_name = r'D:\training_data\hist_data\hist_training_data-{}.npy'.format(i)
+            file_name = r'D:\training_data\hist_data_2\hist_2_training_data-{}.npy'.format(i)
             # full file info
             train_data = np.load(file_name, allow_pickle=True)
             print(file_name, len(train_data))
 
-            ##            # [   [    [FRAMES], CHOICE   ]    ]
-            ##            train_data = []
-            ##            current_frames = deque(maxlen=HM_FRAMES)
-            ##
-            ##            for ds in data:
-            ##                screen, choice = ds
-            ##                gray_screen = cv2.cvtColor(screen, cv2.COLOR_RGB2GRAY)
-            ##
-            ##
-            ##                current_frames.append(gray_screen)
-            ##                if len(current_frames) == HM_FRAMES:
-            ##                    train_data.append([list(current_frames),choice])
-
-            # #
-            # always validating unique data: 
             shuffle(train_data)
             train = train_data[:-2500]
             test = train_data[-2500:]

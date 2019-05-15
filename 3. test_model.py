@@ -4,9 +4,9 @@ import time
 from directkeys import PressKey, ReleaseKey, W, A, S, D
 from models import inception_v3 as googlenet
 from getkeys import key_check
-from collections import deque, Counter
-import random
-from statistics import mode, mean
+# from collections import deque, Counter
+# import random
+# from statistics import mode, mean
 import numpy as np
 
 GAME_WIDTH = 1920
@@ -93,7 +93,7 @@ def no_keys():
 
 
 model = googlenet(WIDTH, HEIGHT, 3, LR, output=9)
-MODEL_NAME = 'pygta5-{}-{}-{}-epochs-7-raw_data.model'.format(LR, 'googlenet', EPOCHS)
+MODEL_NAME = 'models\pygta5-{}-{}-{}-epochs-7-raw_data.model'.format(LR, 'googlenet', EPOCHS)
 model.load(MODEL_NAME)
 
 print('We have loaded a previous model!!!!')

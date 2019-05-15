@@ -1,11 +1,11 @@
 import numpy as np
-from grabscreen import grab_screen
-import cv2
-import time
-import os
-import pandas as pd
-#from tqdm import tqdm
-from collections import deque
+# from grabscreen import grab_screen
+# import cv2
+# import time
+# import os
+# import pandas as pd
+# from tqdm import tqdm
+# from collections import deque
 from models import inception_v3 as googlenet
 from random import shuffle
 
@@ -16,8 +16,8 @@ HEIGHT = 270
 LR = 1e-3
 EPOCHS = 1
 
-MODEL_NAME = 'pygta5-{}-{}-{}-epochs-7-raw_data.model'.format(LR, 'googlenet',EPOCHS)
-PREV_MODEL = 'pygta5-{}-{}-{}-epochs-7-raw_data.model'.format(LR, 'googlenet',EPOCHS)
+MODEL_NAME = 'models/pygta5-{}-{}-{}-epochs-{}-raw_data.model'.format(LR, 'googlenet', EPOCHS, FILE_I_END)
+PREV_MODEL = 'models/pygta5-{}-{}-{}-epochs-{}-raw_data.model'.format(LR, 'googlenet', EPOCHS, FILE_I_END)
 
 LOAD_MODEL = False
 
@@ -58,7 +58,7 @@ for e in range(EPOCHS):
     for count, i in enumerate(data_order):
 
         try:
-            file_name = 'training_data/raw_data/training_data-{}.npy'.format(i)
+            file_name = 'D:/training_data/raw_data/training_data-{}.npy'.format(i)
             # full file info
             train_data = np.load(file_name, allow_pickle=True)
             print(file_name, len(train_data))
@@ -78,7 +78,7 @@ for e in range(EPOCHS):
 
             # #
             # always validating unique data: 
-            # shuffle(train_data)
+            shuffle(train_data)
             train = train_data[:-2500]
             test = train_data[-2500:]
 
@@ -91,9 +91,8 @@ for e in range(EPOCHS):
             model.fit({'input': X}, {'targets': Y}, n_epoch=1, validation_set=({'input': test_x}, {'targets': test_y}),
                       snapshot_step=2500, show_metric=True, run_id=MODEL_NAME)
 
-            if count % 10 == 0:
-                print('SAVING MODEL!')
-                model.save(MODEL_NAME)
+            print('SAVING MODEL!')
+            model.save(MODEL_NAME)
 
         except Exception as e:
             print(str(e))

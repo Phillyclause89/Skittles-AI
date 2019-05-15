@@ -15,10 +15,10 @@ shuffle(data_order)
 for count, i in enumerate(data_order):
     try:
         random.seed()
-        file_name = 'training_data-{}.npy'.format(i)
+        file_name = 'D:/training_data/raw_data/training_data-{}.npy'.format(i)
         # full file info
         train_data = np.load(file_name, allow_pickle=True)
-        print('training_data-{}.npy'.format(i), len(train_data))
+        print(file_name, len(train_data))
         df = pd.DataFrame(train_data)
         print(df.head())
         print(Counter(df[1].apply(str)))
@@ -75,7 +75,7 @@ for count, i in enumerate(data_order):
 
         final_data = w + s + a + d + wa + wd + sa + sd + nk
         shuffle(final_data)
-        np.save('balanced_training_data-{}.npy'.format(i+offset), final_data)
+        np.save('D:/training_data/balanced_training_data-{}.npy'.format(i+offset), final_data)
 
     except Exception as e:
         print(str(e))

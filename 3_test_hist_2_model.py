@@ -16,7 +16,7 @@ GAME_HEIGHT = 1080
 WIDTH = 480
 HEIGHT = 270
 LR = 1e-3
-EPOCHS = 2
+EPOCHS = 1
 
 w = [1, 0, 0, 0, 0, 0, 0, 0, 0]
 s = [0, 1, 0, 0, 0, 0, 0, 0, 0]
@@ -123,7 +123,7 @@ def no_keys():
 
 
 model = googlenet((WIDTH * 2), HEIGHT, 3, LR, output=9)
-MODEL_NAME = 'models\pygta5-{}-{}-{}-epochs-7-hist_data.model'.format(LR, 'googlenet', EPOCHS)
+MODEL_NAME = 'models\pygta5-{}-{}-{}-epochs-1-hist_data.model'.format(LR, 'googlenet', EPOCHS)
 model.load(MODEL_NAME)
 
 print('We have loaded a previous model!!!!')
@@ -137,17 +137,37 @@ def main():
     paused = False
     mode_choice = 0
     test_data = []
+    test_data_2 = []
+    test_data_3 = []
 
     while (True):
 
 
         if not paused:
+
             if len(test_data) == 0:
                 screen = grab_screen(region=(0, 40, GAME_WIDTH, GAME_HEIGHT + 40))
                 screen = cv2.cvtColor(screen, cv2.COLOR_BGR2RGB)
                 screen = cv2.resize(screen, (WIDTH, HEIGHT))
                 keys = key_check()
                 output = keys_to_output(keys)
+                test_data = [screen, output]
+            elif len(test_data_2) == 0:
+                screen = grab_screen(region=(0, 40, GAME_WIDTH, GAME_HEIGHT + 40))
+                screen = cv2.cvtColor(screen, cv2.COLOR_BGR2RGB)
+                screen = cv2.resize(screen, (WIDTH, HEIGHT))
+                keys = key_check()
+                output = keys_to_output(keys)
+                test_data_2 = test_data
+                test_data = [screen, output]
+            elif len(test_data_3) == 0:
+                screen = grab_screen(region=(0, 40, GAME_WIDTH, GAME_HEIGHT + 40))
+                screen = cv2.cvtColor(screen, cv2.COLOR_BGR2RGB)
+                screen = cv2.resize(screen, (WIDTH, HEIGHT))
+                keys = key_check()
+                output = keys_to_output(keys)
+                test_data_3 = test_data_2
+                test_data_2 = test_data
                 test_data = [screen, output]
             else:
                 screen = grab_screen(region=(0, 40, GAME_WIDTH, GAME_HEIGHT + 40))
@@ -156,8 +176,12 @@ def main():
 
                 img1 = screen
                 img2 = test_data[0]
+                img3 = test_data_2[0]
+                img4 = test_data_3[0]
                 last_input = test_data[1]
-                vis = np.concatenate((img1, img2), axis=1)
+                _2nd_last_input = test_data_2[1]
+                _3rd_last_input = test_data_3[1]
+
                 font = cv2.FONT_HERSHEY_SIMPLEX
                 last = []
                 if last_input == [1, 0, 0, 0, 0, 0, 0, 0, 0]:
@@ -178,9 +202,54 @@ def main():
                     last = 'SDSDSDSDSDSD'
                 elif last_input == [0, 0, 0, 0, 0, 0, 0, 0, 1]:
                     last = 'NKNKNKNKNKNKNK'
-                cv2.putText(vis, str(last), (10, 10), font, 1, (255, 0, 0), 3, cv2.LINE_AA)
+                cv2.putText(img2, str(last), (10, 10), font, 1, (0, 0, 255), 3, cv2.LINE_AA)
 
-                prediction = model.predict([vis.reshape((2 * WIDTH), HEIGHT, 3)])[0]
+                if _2nd_last_input == [1, 0, 0, 0, 0, 0, 0, 0, 0]:
+                    last = 'W'
+                elif _2nd_last_input == [0, 1, 0, 0, 0, 0, 0, 0, 0]:
+                    last = 'SS'
+                elif _2nd_last_input == [0, 0, 1, 0, 0, 0, 0, 0, 0]:
+                    last = 'AAA'
+                elif _2nd_last_input == [0, 0, 0, 1, 0, 0, 0, 0, 0]:
+                    last = 'DDDD'
+                elif _2nd_last_input == [0, 0, 0, 0, 1, 0, 0, 0, 0]:
+                    last = 'WAWAWA'
+                elif _2nd_last_input == [0, 0, 0, 0, 0, 1, 0, 0, 0]:
+                    last = 'WDWDWDWD'
+                elif _2nd_last_input == [0, 0, 0, 0, 0, 0, 1, 0, 0]:
+                    last = 'SASASASASA'
+                elif _2nd_last_input == [0, 0, 0, 0, 0, 0, 0, 1, 0]:
+                    last = 'SDSDSDSDSDSD'
+                elif _2nd_last_input == [0, 0, 0, 0, 0, 0, 0, 0, 1]:
+                    last = 'NKNKNKNKNKNKNK'
+                cv2.putText(img3, str(last), (10, 10), font, 1, (0, 0, 255), 3, cv2.LINE_AA)
+
+                if _3rd_last_input == [1, 0, 0, 0, 0, 0, 0, 0, 0]:
+                    last = 'W'
+                elif _3rd_last_input == [0, 1, 0, 0, 0, 0, 0, 0, 0]:
+                    last = 'SS'
+                elif _3rd_last_input == [0, 0, 1, 0, 0, 0, 0, 0, 0]:
+                    last = 'AAA'
+                elif _3rd_last_input == [0, 0, 0, 1, 0, 0, 0, 0, 0]:
+                    last = 'DDDD'
+                elif _3rd_last_input == [0, 0, 0, 0, 1, 0, 0, 0, 0]:
+                    last = 'WAWAWA'
+                elif _3rd_last_input == [0, 0, 0, 0, 0, 1, 0, 0, 0]:
+                    last = 'WDWDWDWD'
+                elif _3rd_last_input == [0, 0, 0, 0, 0, 0, 1, 0, 0]:
+                    last = 'SASASASASA'
+                elif _3rd_last_input == [0, 0, 0, 0, 0, 0, 0, 1, 0]:
+                    last = 'SDSDSDSDSDSD'
+                elif _3rd_last_input == [0, 0, 0, 0, 0, 0, 0, 0, 1]:
+                    last = 'NKNKNKNKNKNKNK'
+                cv2.putText(img4, str(last), (10, 10), font, 1, (0, 0, 255), 3, cv2.LINE_AA)
+
+                vis0 = np.concatenate((img1, img2), axis=1)
+                vis1 = np.concatenate((img3, img4), axis=1)
+                final_vis = np.concatenate((vis0, vis1), axis=0)
+                final_vis = cv2.resize(final_vis, (480, 270))
+
+                prediction = model.predict([final_vis.reshape(WIDTH, HEIGHT, 3)])[0]
                 prediction = np.array(prediction)  # * np.array([1.12, 1, 1, 1, 1, 1, 1, 1, 0.2])
                 print(prediction)
                 # div = 4
@@ -253,6 +322,8 @@ def main():
                     print(choice_picked)
                 keys = key_check()
                 output = keys_to_output(keys)
+                test_data_3 = test_data_2
+                test_data_2 = test_data
                 test_data = [screen, output]
         keys = key_check()
 

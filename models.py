@@ -191,7 +191,7 @@ def otherception3(width, height, frame_count, lr, output=9, model_name='othercep
                              learning_rate=lr, name='targets')
 
         model = tf.DNN(network,
-                            max_checkpoints=0, tensorboard_verbose=0, tensorboard_dir='log')
+                       max_checkpoints=0, tensorboard_verbose=0, tensorboard_dir='log')
 
         return model
 
@@ -211,10 +211,10 @@ def resnext(width, height, frame_count, lr, output=9, model_name='sentnet_color.
     net = tf.fully_connected(net, output, activation='softmax')
     opt = tf.Momentum(0.1, lr_decay=0.1, decay_step=32000, staircase=True)
     net = tf.regression(net, optimizer=opt,
-                             loss='categorical_crossentropy')
+                        loss='categorical_crossentropy')
 
     model = tf.DNN(net,
-                        max_checkpoints=0, tensorboard_verbose=0, tensorboard_dir='log')
+                   max_checkpoints=0, tensorboard_verbose=0, tensorboard_dir='log')
 
     return model
 
@@ -253,7 +253,7 @@ def sentnet_color_2d(width, height, frame_count, lr, output=9, model_name='sentn
                          learning_rate=lr, name='targets')
 
     model = tf.DNN(network,
-                        max_checkpoints=0, tensorboard_verbose=0, tensorboard_dir='log')
+                   max_checkpoints=0, tensorboard_verbose=0, tensorboard_dir='log')
 
     return model
 
@@ -402,8 +402,7 @@ def inception_v3(width, height, frame_count, lr, output=9, model_name='sentnet_c
                          loss='categorical_crossentropy',
                          learning_rate=lr, name='targets')
 
-    model = tf.DNN(network,
-                        max_checkpoints=0, tensorboard_verbose=0, tensorboard_dir='log')
+    model = tf.DNN(network, max_checkpoints=0, tensorboard_verbose=0, tensorboard_dir='log')
 
     return model
 
@@ -553,7 +552,7 @@ def inception_v3_3d(width, height, frame_count, lr, output=9, model_name='sentne
                          learning_rate=lr, name='targets')
 
     model = tf.DNN(network, checkpoint_path=model_name,
-                        max_checkpoints=1, tensorboard_verbose=0, tensorboard_dir='log')
+                   max_checkpoints=1, tensorboard_verbose=0, tensorboard_dir='log')
 
     return model
 
@@ -565,10 +564,10 @@ def sentnet_LSTM_gray(width, height, frame_count, lr, output=9):
     network = tf.lstm(network, 128)
     network = tf.fully_connected(network, 9, activation='softmax')
     network = tf.regression(network, optimizer='adam',
-                                 loss='categorical_crossentropy', name="output1")
+                            loss='categorical_crossentropy', name="output1")
 
     model = tf.DNN(network, checkpoint_path='model_lstm',
-                        max_checkpoints=1, tensorboard_verbose=0, tensorboard_dir='log')
+                   max_checkpoints=1, tensorboard_verbose=0, tensorboard_dir='log')
 
     return model
 
@@ -607,7 +606,7 @@ def sentnet_color(width, height, frame_count, lr, output=9, model_name='sentnet_
                          learning_rate=lr, name='targets')
 
     model = tf.DNN(network, checkpoint_path=model_name,
-                        max_checkpoints=1, tensorboard_verbose=0, tensorboard_dir='log')
+                   max_checkpoints=1, tensorboard_verbose=0, tensorboard_dir='log')
 
     return model
 
@@ -646,7 +645,7 @@ def sentnet_frames(width, height, frame_count, lr, output=9):
                          learning_rate=lr, name='targets')
 
     model = tf.DNN(network, checkpoint_path='model_alexnet',
-                        max_checkpoints=1, tensorboard_verbose=0, tensorboard_dir='log')
+                   max_checkpoints=1, tensorboard_verbose=0, tensorboard_dir='log')
 
     return model
 
@@ -674,7 +673,7 @@ def sentnet2(width, height, frame_count, lr, output=9):
                          learning_rate=lr, name='targets')
 
     model = tf.DNN(network, checkpoint_path='model_alexnet',
-                        max_checkpoints=1, tensorboard_verbose=0, tensorboard_dir='log')
+                   max_checkpoints=1, tensorboard_verbose=0, tensorboard_dir='log')
 
     return model
 
@@ -713,7 +712,7 @@ def sentnet(width, height, frame_count, lr, output=9):
                          learning_rate=lr, name='targets')
 
     model = tf.DNN(network, checkpoint_path='model_alexnet',
-                        max_checkpoints=1, tensorboard_verbose=0, tensorboard_dir='log')
+                   max_checkpoints=1, tensorboard_verbose=0, tensorboard_dir='log')
 
     return model
 
@@ -752,7 +751,7 @@ def alexnet2(width, height, lr, output=3):
                          learning_rate=lr, name='targets')
 
     model = tf.DNN(network, checkpoint_path='model_alexnet',
-                        max_checkpoints=1, tensorboard_verbose=0, tensorboard_dir='log')
+                   max_checkpoints=1, tensorboard_verbose=0, tensorboard_dir='log')
 
     return model
 
@@ -787,7 +786,7 @@ def sentnet_v0(width, height, frame_count, lr, output=9):
                          learning_rate=lr, name='targets')
 
     model = tf.DNN(network, checkpoint_path='model_alexnet',
-                        max_checkpoints=1, tensorboard_verbose=0, tensorboard_dir='log')
+                   max_checkpoints=1, tensorboard_verbose=0, tensorboard_dir='log')
 
     return model
 
@@ -815,6 +814,6 @@ def alexnet(width, height, lr, output=3):
                          learning_rate=lr, name='targets')
 
     model = tf.DNN(network, checkpoint_path='model_alexnet',
-                        max_checkpoints=1, tensorboard_verbose=0, tensorboard_dir='log')
+                   max_checkpoints=1, tensorboard_verbose=0, tensorboard_dir='log')
 
     return model

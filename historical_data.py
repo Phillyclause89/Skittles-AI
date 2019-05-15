@@ -4,9 +4,10 @@ import numpy as np
 import cv2
 
 
-FILE_I_END = 1
+FILE_I_END = 7
+FILE_I_START = 1
 
-data_order = [i for i in range(1, FILE_I_END + 1)]
+data_order = [i for i in range(FILE_I_START + 1, FILE_I_END + 1)]
 for count, i in enumerate(data_order):
     file_name = 'training_data/raw_data/training_data-{}.npy'.format(i)
     train_data = np.load(file_name, allow_pickle=True)
@@ -46,4 +47,4 @@ for count, i in enumerate(data_order):
         final_data.append([vis, current_input])
 
     print("Saving")
-    np.save('training_data/hist_data/hist_training_data-{}.npy'.format(i), final_data)
+    np.save(r'D:\training_data\hist_data\hist_training_data-{}.npy'.format(i), final_data)
