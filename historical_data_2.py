@@ -1,15 +1,16 @@
-# historical_data.py
+# historical_data_2.py
 
 import numpy as np
 import cv2
 
 
-FILE_I_END = 1
+FILE_I_END = 7
 FILE_I_START = 0
+
 
 data_order = [i for i in range(FILE_I_START + 1, FILE_I_END + 1)]
 for count, i in enumerate(data_order):
-    file_name = r'D:\training_data\raw_data\training_data-{}.npy'.format(i)
+    file_name = r'D:\training_data\raw_data\taxi_training_data-{}.npy'.format(i)
     train_data = np.load(file_name, allow_pickle=True)
     column_last = train_data[:][:-1]
     train_data = np.delete(train_data, 0, 0)
@@ -108,4 +109,4 @@ for count, i in enumerate(data_order):
         final_data.append([final_vis, current_input])
 
     print("Saving")
-    np.save(r'D:\training_data\hist_data_2\hist_2_training_data-{}.npy'.format(i), final_data)
+    np.save(r'D:\training_data\hist_data_2\hist_2_taxi_training_data-{}.npy'.format(i), final_data)

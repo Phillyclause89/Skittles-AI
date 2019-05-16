@@ -9,15 +9,15 @@ import numpy as np
 from models import inception_v3 as googlenet
 from random import shuffle
 
-FILE_I_END = 7
+FILE_I_END = 70
 
 WIDTH = 480
 HEIGHT = 270
-LR = 1e-3
-EPOCHS = 2
+LR = 5e-3
+EPOCHS = 8
 
-MODEL_NAME = 'models/pygta5-{}-{}-{}-epochs-{}-hist_2_data.model'.format(LR, 'googlenet', EPOCHS, FILE_I_END)
-PREV_MODEL = 'models/pygta5-{}-{}-{}-epochs-{}-hist_2_data.model'.format(LR, 'googlenet', EPOCHS, FILE_I_END)
+MODEL_NAME = 'models/pygta5-{}-{}-{}-epochs-{}-balanced_hist_taxi_data.model'.format(LR, 'googlenet', EPOCHS, FILE_I_END)
+PREV_MODEL = 'models/pygta5-{}-{}-{}-epochs-{}-balanced_hist_taxi_data.model'.format(LR, 'googlenet', EPOCHS, FILE_I_END)
 
 LOAD_MODEL = False
 
@@ -58,14 +58,15 @@ for e in range(EPOCHS):
     for count, i in enumerate(data_order):
 
         try:
-            file_name = r'D:\training_data\hist_data_2\hist_2_training_data-{}.npy'.format(i)
+            file_name = r'D:\training_data\balanced_hist_taxi_training_data-{}.npy'.format(i)
             # full file info
             train_data = np.load(file_name, allow_pickle=True)
             print(file_name, len(train_data))
+            split = int((len(train_data))*0.20)
 
             shuffle(train_data)
-            train = train_data[:-2500]
-            test = train_data[-2500:]
+            train = train_data[:-split]
+            test = train_data[-split:]
 
             X = np.array([i[0] for i in train]).reshape(-1, WIDTH, HEIGHT, 3)
             Y = [i[1] for i in train]

@@ -8,14 +8,14 @@ import random
 
 random.seed()
 FILE_I_END = 7
-offset = 10
+offset = 63
 
 data_order = [i for i in range(1, FILE_I_END + 1)]
 shuffle(data_order)
 for count, i in enumerate(data_order):
     try:
         random.seed()
-        file_name = 'D:/training_data/raw_data/training_data-{}.npy'.format(i)
+        file_name = 'D:/training_data/hist_data_2/hist_2_taxi_training_data-{}.npy'.format(i)
         # full file info
         train_data = np.load(file_name, allow_pickle=True)
         print(file_name, len(train_data))
@@ -75,7 +75,7 @@ for count, i in enumerate(data_order):
 
         final_data = w + s + a + d + wa + wd + sa + sd + nk
         shuffle(final_data)
-        np.save('D:/training_data/balanced_training_data-{}.npy'.format(i+offset), final_data)
+        np.save('D:/training_data/balanced_hist_taxi_training_data-{}.npy'.format(i+offset), final_data)
 
     except Exception as e:
         print(str(e))

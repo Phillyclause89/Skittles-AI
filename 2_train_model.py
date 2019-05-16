@@ -62,25 +62,11 @@ for e in range(EPOCHS):
             # full file info
             train_data = np.load(file_name, allow_pickle=True)
             print(file_name, len(train_data))
+            split = int((len(train_data)) * 0.20)
 
-            ##            # [   [    [FRAMES], CHOICE   ]    ]
-            ##            train_data = []
-            ##            current_frames = deque(maxlen=HM_FRAMES)
-            ##
-            ##            for ds in data:
-            ##                screen, choice = ds
-            ##                gray_screen = cv2.cvtColor(screen, cv2.COLOR_RGB2GRAY)
-            ##
-            ##
-            ##                current_frames.append(gray_screen)
-            ##                if len(current_frames) == HM_FRAMES:
-            ##                    train_data.append([list(current_frames),choice])
-
-            # #
-            # always validating unique data: 
             shuffle(train_data)
-            train = train_data[:-2500]
-            test = train_data[-2500:]
+            train = train_data[:-split]
+            test = train_data[-split:]
 
             X = np.array([i[0] for i in train]).reshape(-1, WIDTH, HEIGHT, 3)
             Y = [i[1] for i in train]

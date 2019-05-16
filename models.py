@@ -402,7 +402,7 @@ def inception_v3(width, height, frame_count, lr, output=9, model_name='sentnet_c
                          loss='categorical_crossentropy',
                          learning_rate=lr, name='targets')
 
-    model = tf.DNN(network, max_checkpoints=0, tensorboard_verbose=0, tensorboard_dir='log')
+    model = tf.DNN(network, max_checkpoints=0, tensorboard_verbose=2, tensorboard_dir='log')
 
     return model
 
