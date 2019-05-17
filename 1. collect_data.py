@@ -1,3 +1,5 @@
+# https://github.com/Phillyclause89/Skittles-AI/wiki/1.-collect_data.py
+
 import numpy as np
 from grabscreen import grab_screen
 import cv2
@@ -5,6 +7,7 @@ import time
 from getkeys import key_check
 import os
 
+#    W  S  A  D  WA WD SA SD NK
 w = [1, 0, 0, 0, 0, 0, 0, 0, 0]
 s = [0, 1, 0, 0, 0, 0, 0, 0, 0]
 a = [0, 0, 1, 0, 0, 0, 0, 0, 0]
@@ -15,8 +18,8 @@ sa = [0, 0, 0, 0, 0, 0, 1, 0, 0]
 sd = [0, 0, 0, 0, 0, 0, 0, 1, 0]
 nk = [0, 0, 0, 0, 0, 0, 0, 0, 1]
 
+path = "D:/training_data/raw_data/taxi_training_data"
 starting_value = 1
-
 data_cap = 25000
 
 game_width = 1920
@@ -27,7 +30,7 @@ width = 480
 height = 270
 
 while True:
-    file_name = 'D:/training_data/raw_data/taxi_training_data-{}.npy'.format(starting_value)
+    file_name = '{}-{}.npy'.format(path, starting_value)
 
     if os.path.isfile(file_name):
         print('File exists, moving along', starting_value)
@@ -108,7 +111,7 @@ def main(file_name, starting_value):
                     print('SAVED')
                     training_data = []
                     starting_value += 1
-                    file_name = 'D:/training_data/raw_data/taxi_training_data-{}.npy'.format(starting_value)
+                    file_name = '{}-{}.npy'.format(path, starting_value)
 
         keys = key_check()
         if 'T' in keys:
