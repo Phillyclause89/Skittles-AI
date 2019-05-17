@@ -2,7 +2,7 @@
 # Skittles-AI readme:
 This is my own little fork of https://github.com/Sentdex/pygta5/ 
 
-Currently in this repository, I'm working on a modified version of Sentdex's model that trained on an image that is the combanation of the last three screens and the current screen with a code for the last three WASD key inputs printed in the upper right hand corrner of the associated screen image.
+Currently in this repository, I'm using Sentdex's framework to train a model on an image that is the combanation of the last three screens and the current screen with a code for the last three WASD key inputs printed in the upper right hand corrner of their associated screen image.
 
 
 
