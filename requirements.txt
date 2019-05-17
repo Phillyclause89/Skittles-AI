@@ -4,3 +4,5 @@ tensorflow
 opencv-python
 pypiwin32
 tflearn
+tkinter
+pillow

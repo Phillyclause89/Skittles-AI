@@ -17,6 +17,15 @@ nk = [0, 0, 0, 0, 0, 0, 0, 0, 1]
 
 starting_value = 1
 
+data_cap = 25000
+
+game_width = 1920
+game_height = 1080
+title_bar = 40
+
+width = 480
+height = 270
+
 while True:
     file_name = 'D:/training_data/raw_data/taxi_training_data-{}.npy'.format(starting_value)
 
@@ -72,9 +81,9 @@ def main(file_name, starting_value):
     while (True):
 
         if not paused:
-            screen = grab_screen(region=(0, 40, 1920, 1120))
+            screen = grab_screen(region=(0, title_bar, game_width, (game_height+title_bar)))
             # resize to something a bit more acceptable for a CNN
-            screen = cv2.resize(screen, (480, 270))
+            screen = cv2.resize(screen, (width, height))
             # run a color convert:
             screen = cv2.cvtColor(screen, cv2.COLOR_BGR2RGB)
 
@@ -93,7 +102,7 @@ def main(file_name, starting_value):
             if len(training_data) % 100 == 0:
                 print(len(training_data))
 
-                if len(training_data) == 25000:
+                if len(training_data) == data_cap:
                     print('SAVING..')
                     np.save(file_name, training_data)
                     print('SAVED')
